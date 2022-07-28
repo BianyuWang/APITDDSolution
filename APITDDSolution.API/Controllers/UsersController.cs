@@ -19,7 +19,7 @@ namespace APITDDSolution.API.Controllers
         public async Task<IActionResult> Get()
         {
             var users = await _userService.GetAllUsers();
-            return Ok("all good");
+            return Ok(users);
         }
     }
 }

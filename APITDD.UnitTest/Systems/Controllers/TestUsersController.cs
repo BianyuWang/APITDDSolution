@@ -36,28 +36,33 @@ namespace APITDD.UnitTest.Systems.Controllers
 
             //Act
             var result = await sut.Get();
-
-            mockUserService.Verify(service => service.GetAllUsers(), Times.Once());
             //Assert
-          //  result.StatusCode.Should().Be(200);
+            mockUserService.Verify(service => service.GetAllUsers(), Times.Once());
+           
+         
         }
 
-        //[Fact]
-        //public async Task Get_OnSuccess_ReturnListOfUsers()
-        //{
-        //    //Arrange
-        //    var mockUserService = new Mock<IUserService>();
-        //    mockUserService
-        //        .Setup(service => service.GetAllUsers())
-        //   .ReturnsAsync(new List<User>());
-        //    var sut = new UsersController(mockUserService.Object);
+        [Fact]
+        public async Task Get_OnSuccess_ReturnListOfUsers()
+        {
+            //Arrange
+            var mockUserService = new Mock<IUserService>();
+            mockUserService
+                .Setup(service => service.GetAllUsers())
+           .ReturnsAsync(new List<User>());
 
-        //    //Act
-        //    var result = await sut.Get();
 
-        //    mockUserService.Verify(service => service.GetAllUsers(), Times.Once());
-        //    //Assert
-        //    //  result.StatusCode.Should().Be(200);
-        //}
+            var sut = new UsersController(mockUserService.Object);
+
+            //Act
+            var result = await sut.Get();
+
+
+            //Assert
+            result.Should().BeOfType<OkObjectResult>();
+
+            var objectResult = (OkObjectResult)result;
+            objectResult.Value.Should().BeOfType<List<User>>();
+        }
     }
 }
