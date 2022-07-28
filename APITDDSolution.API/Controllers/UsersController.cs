@@ -19,7 +19,9 @@ namespace APITDDSolution.API.Controllers
         public async Task<IActionResult> Get()
         {
             var users = await _userService.GetAllUsers();
+            if(users.Any())
             return Ok(users);
+            return NotFound();
         }
     }
 }

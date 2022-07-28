@@ -49,7 +49,21 @@ namespace APITDD.UnitTest.Systems.Controllers
             var mockUserService = new Mock<IUserService>();
             mockUserService
                 .Setup(service => service.GetAllUsers())
-           .ReturnsAsync(new List<User>());
+           .ReturnsAsync(new List<User>()
+           { new User {
+           Id= 1,
+           FirstName="Lea",
+           LastName ="Li",
+           Address = new Address()
+           { 
+               CiviLNum = 1234,
+               City="North Pole",
+           PostalCode="h0h0h0",
+           }
+           }
+           
+           }
+           );
 
 
             var sut = new UsersController(mockUserService.Object);
@@ -64,5 +78,27 @@ namespace APITDD.UnitTest.Systems.Controllers
             var objectResult = (OkObjectResult)result;
             objectResult.Value.Should().BeOfType<List<User>>();
         }
+
+
+        [Fact]
+        public async Task Get_OnNoUsersFound_Returns404()
+        {
+            //Arrange
+            var mockUserService = new Mock<IUserService>();
+            mockUserService
+                .Setup(service => service.GetAllUsers())
+           .ReturnsAsync(new List<User>());
+
+            var sut = new UsersController(mockUserService.Object);
+
+            //Act
+            var result = await sut.Get();
+            result.Should().BeOfType<NotFoundResult>();
+
+            var objectResult = (NotFoundResult)result;
+
+            objectResult.StatusCode.Should().Be(404);
+        }
+
     }
 }
