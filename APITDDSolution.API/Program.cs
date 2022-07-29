@@ -1,3 +1,4 @@
+using APITDDSolution.API.Config;
 using APITDDSolution.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,5 +34,6 @@ void ConfigureServices(IServiceCollection services)
 { 
 services.AddTransient<IUserService, UserService>();
     services.AddHttpClient<IUserService, UserService>();
+    services.Configure<UsersAPIOptions>(builder.Configuration.GetSection("UsersAPIOptions"));
 
 }
