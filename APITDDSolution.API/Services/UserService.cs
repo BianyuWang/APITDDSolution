@@ -5,15 +5,20 @@ namespace APITDDSolution.API.Services
     public class UserService : IUserService
 
     {
+        private readonly HttpClient _httpClient;
 
-        public UserService()
+        public UserService(HttpClient httpClient)
         {
-
+            _httpClient = httpClient;
         }
 
-        public Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            throw new NotImplementedException();
+            var usersResponse = await _httpClient.GetAsync("http://example.com");
+            return new List<User>
+            {
+            };
+
         }
     }
 }

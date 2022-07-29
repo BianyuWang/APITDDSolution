@@ -1,3 +1,4 @@
+using APITDD.UnitTest.Fixtures;
 using APITDDSolution.API.Controllers;
 using APITDDSolution.API.Models;
 using APITDDSolution.API.Services;
@@ -31,7 +32,7 @@ namespace APITDD.UnitTest.Systems.Controllers
             var mockUserService = new Mock<IUserService>();
             mockUserService
                 .Setup(service =>service.GetAllUsers())
-            .ReturnsAsync(new List<User>());
+            .ReturnsAsync(UserFixture.GetTestUsers());
                   var sut = new UsersController(mockUserService.Object);
 
             //Act
@@ -49,21 +50,7 @@ namespace APITDD.UnitTest.Systems.Controllers
             var mockUserService = new Mock<IUserService>();
             mockUserService
                 .Setup(service => service.GetAllUsers())
-           .ReturnsAsync(new List<User>()
-           { new User {
-           Id= 1,
-           FirstName="Lea",
-           LastName ="Li",
-           Address = new Address()
-           { 
-               CiviLNum = 1234,
-               City="North Pole",
-           PostalCode="h0h0h0",
-           }
-           }
-           
-           }
-           );
+           .ReturnsAsync(UserFixture.GetTestUsers());
 
 
             var sut = new UsersController(mockUserService.Object);
